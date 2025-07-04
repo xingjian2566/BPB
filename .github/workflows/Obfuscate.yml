@@ -29,10 +29,12 @@ jobs:
           sudo apt-get install -y unzip
 
       - name: Download and extract latest BPB worker
-        run: |
-          wget https://github.com/bia-pain-bache/BPB-Worker-Panel/releases/latest/download/unobfuscated-worker.zip
-          unzip -o unobfuscated-worker.zip
-          mv _worker.js origin.js
+  run: |
+    wget --content-disposition \
+         --header="Accept: application/octet-stream" \
+         https://github.com/bia-pain-bache/BPB-Worker-Panel/releases/latest/download/unobfuscated-worker.zip
+    unzip -o unobfuscated-worker.zip
+    mv _worker.js origin.js
 
       - name: Obfuscate BPB worker js
         run: |
