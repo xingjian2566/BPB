@@ -33,9 +33,9 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           sudo apt-get update && sudo apt-get install -y gh unzip
-          gh release download --repo bia-pain-bache/BPB-Worker-Panel --pattern "unobfuscated-worker.zip"
-          unzip -o unobfuscated-worker.zip
-          mv _worker.js origin.js
+          gh release download --repo bia-pain-bache/BPB-Worker-Panel --pattern "worker.zip"
+          unzip -o worker.zip
+          mv worker.js origin.js
 
       - name: Obfuscate BPB worker js
         run: |
