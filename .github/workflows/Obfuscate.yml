@@ -29,6 +29,8 @@ jobs:
           sudo apt-get install -y unzip
 
       - name: Download latest BPB worker from release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           sudo apt-get update && sudo apt-get install -y gh unzip
           gh release download --repo bia-pain-bache/BPB-Worker-Panel --pattern "unobfuscated-worker.zip"
