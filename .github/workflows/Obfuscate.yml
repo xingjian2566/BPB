@@ -32,10 +32,18 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          sudo apt-get update && sudo apt-get install -y gh unzip
-          gh release download --repo bia-pain-bache/BPB-Worker-Panel --pattern "worker.zip"
-          unzip -o worker.zip
-          mv _worker.js origin.js
+          sudo apt-get update && sudo apt-get install -y gh unzip jq
+          LATEST_TAG=$(gh release list --repo bia-pain-bache/BPB-Worker-Panel --limit 1 --json tagName --jq '.[0].tagName')
+
+          if [ -f .latest_bpb_version ] && [ "$(cat .latest_bpb_version)" == "$LATEST_TAG" ]; then
+            echo "Already up to date with latest BPB release ($LATEST_TAG). Skip downloading."
+          else
+            echo "New version detected: $LATEST_TAG, downloading..."
+            gh release download --repo bia-pain-bache/BPB-Worker-Panel --pattern "worker.zip" --clobber
+            unzip -o worker.zip
+            mv _worker.js origin.js
+            echo "$LATEST_TAG" > .latest_bpb_version
+          fi
 
       - name: Obfuscate BPB worker js
         run: |
